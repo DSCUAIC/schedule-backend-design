@@ -1,0 +1,33 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Schedule API",
+    "version": "1.0",
+    "description": "Schedule API Docs",
+    "contact": {
+      "name": "Teodor Proca"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "get": {
+        "summary": "Login",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-auth-login",
+        "description": "The login endpoint.",
+        "tags": [
+          "auth"
+        ]
+      }
+    }
+  }
+}
