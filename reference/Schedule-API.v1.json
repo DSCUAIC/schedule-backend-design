@@ -14,56 +14,80 @@
     }
   ],
   "paths": {
-    "/schedule/year/:yearNumber": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "post-login",
         "responses": {
           "200": {
             "description": "OK",
-            "headers": {},
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "description": " the schedule for that year in json format"
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "operationId": "get-schedule-year-:yearNumber",
-        "description": "return from the `orar.json` the schedule for that year.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "": {
-                    "type": "string"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
                   }
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/auth/login": {
-      "post": {
-        "summary": "",
-        "operationId": "post-login",
-        "responses": {
-          "200": {
-            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "description": "Attempts to login",
@@ -89,11 +113,59 @@
     },
     "/auth/register": {
       "post": {
-        "summary": "",
+        "summary": "Register",
         "operationId": "post-register",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "description": "Attempts to create a new user",
@@ -119,66 +191,46 @@
       },
       "parameters": []
     },
-    "/schedule/year/:yearNumber/semester/:semesterNumber": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "description": "the schedule for that year and that semester"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "get-schedule-year-:yearNumber-semester-:semesterNumber",
-        "description": "return from the `orar.json` the schedule for that year and that semester."
-      }
-    },
-    "/schedule/year/:yearNumber/semester/:semesterNumber/group/:groupNumber": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {}
-                }
-              }
-            }
-          }
-        },
-        "operationId": "get-schedule-year-:yearNumber-semester-:semesterNumber-group-:groupNumber",
-        "description": "return from the `orar.json` the schedule for that year, that semester and that group."
-      }
-    },
     "/auth/reset_password": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+      "post": {
+        "summary": "Reset password",
+        "operationId": "post-auth-reset_password",
         "responses": {
           "200": {
             "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "headers": {},
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
                 }
               }
             }
           }
         },
-        "operationId": "get-auth-reset_password",
         "requestBody": {
           "content": {
             "application/json": {
@@ -188,7 +240,7 @@
                   "email": {
                     "type": "string"
                   },
-                  "newPass": {
+                  "password": {
                     "type": "string"
                   },
                   "oldPass": {
@@ -200,36 +252,22 @@
             "application/xml": {
               "schema": {
                 "type": "object",
-                "properties": {}
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "oldPass": {
+                    "type": "string"
+                  }
+                }
               }
             }
-          },
-          "description": ""
+          }
         },
         "description": "Attempts to reset password"
-      }
-    },
-    "/schedule/rooms": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "operationId": "get-schedule-rooms",
-        "description": "return from the `orar.json` the schedule for all rooms.",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "r",
-            "description": "String representing the specific room you want to search"
-          }
-        ]
       }
     }
   }
