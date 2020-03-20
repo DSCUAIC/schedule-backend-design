@@ -14,18 +14,221 @@
     }
   ],
   "paths": {
-    "/auth/login": {
+    "/schedule/year/:yearNumber": {
       "get": {
-        "summary": "Login",
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": " the schedule for that year in json format"
+                },
+                "examples": {}
+              }
+            }
+          }
+        },
+        "operationId": "get-schedule-year-:yearNumber",
+        "description": "return from the `orar.json` the schedule for that year.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "",
+        "operationId": "post-login",
         "responses": {
           "200": {
             "description": "OK"
           }
         },
-        "operationId": "get-auth-login",
-        "description": "The login endpoint.",
-        "tags": [
-          "auth"
+        "description": "Attempts to login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "",
+        "operationId": "post-register",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Attempts to create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {}
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/schedule/year/:yearNumber/semester/:semesterNumber": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "the schedule for that year and that semester"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-schedule-year-:yearNumber-semester-:semesterNumber",
+        "description": "return from the `orar.json` the schedule for that year and that semester."
+      }
+    },
+    "/schedule/year/:yearNumber/semester/:semesterNumber/group/:groupNumber": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-schedule-year-:yearNumber-semester-:semesterNumber-group-:groupNumber",
+        "description": "return from the `orar.json` the schedule for that year, that semester and that group."
+      }
+    },
+    "/auth/reset_password": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-auth-reset_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "newPass": {
+                    "type": "string"
+                  },
+                  "oldPass": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": ""
+        },
+        "description": "Attempts to reset password"
+      }
+    },
+    "/schedule/rooms": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-schedule-rooms",
+        "description": "return from the `orar.json` the schedule for all rooms.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "r",
+            "description": "String representing the specific room you want to search"
+          }
         ]
       }
     }
