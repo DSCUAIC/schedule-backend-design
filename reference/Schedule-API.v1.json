@@ -14,84 +14,46 @@
     }
   ],
   "paths": {
+    "/auth/validate": {
+      "post": {
+        "description": "Validates a registered user",
+        "summary": "validate",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithToken"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "in": "query",
+          "name": "token",
+          "description": "token received at the register"
+        }
+      ]
+    },
     "/auth/login": {
-      "parameters": [],
       "post": {
         "summary": "Login",
         "operationId": "post-login",
+        "description": "Attempts to login",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/OkWithToken"
           },
           "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            },
-            "headers": {}
+            "$ref": "#/components/responses/NotFound"
           },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/InternalServerError"
           }
         },
-        "description": "Attempts to login",
         "requestBody": {
           "content": {
             "application/json": {
@@ -109,166 +71,34 @@
             }
           }
         }
-      }
-    },
-    "/auth/reset_password": {
-      "post": {
-        "summary": "Reset password",
-        "operationId": "post-auth-reset_password",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "headers": {},
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "oldPass": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "oldPass": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "description": "Attempts to reset password"
       }
     },
     "/auth/register": {
       "post": {
         "summary": "Register",
         "operationId": "post-register",
+        "description": "Attempts to create a new user",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/OkWithToken"
           },
           "409": {
-            "description": "Conflict",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/Conflict"
           },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/InternalServerError"
           }
         },
-        "description": "Attempts to create a new user",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {}
+                "$ref": "#/components/schemas/RegisterSchema"
+              }
             }
-          },
-          "description": ""
+          }
         }
-      },
-      "parameters": []
+      }
     },
     "/schedule/year/{yearNumber}/semester/{semesterNumber}": {
       "parameters": [
@@ -278,8 +108,7 @@
           },
           "name": "yearNumber",
           "in": "path",
-          "required": true,
-          "description": ""
+          "required": true
         },
         {
           "schema": {
@@ -293,42 +122,13 @@
       "get": {
         "summary": "getYearSemesterSchedule",
         "operationId": "get-schedule-year-yearNumber-semester-semesterNumber",
+        "description": "Returns the schedule for the given year number and semester.",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/OkWithSchedule"
           },
           "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/NotFound"
           },
           "500": {
             "description": "Internal Server Error",
@@ -348,14 +148,13 @@
               }
             }
           }
-        },
-        "description": "Returns the schedule for the given year number and semester."
+        }
       }
     },
     "/schedule/rooms": {
       "get": {
         "summary": "getRoomSchedule",
-        "tags": [],
+        "description": "Returns the schedule of the given rooms",
         "responses": {
           "200": {
             "description": "OK",
@@ -368,7 +167,15 @@
                       "type": "boolean"
                     },
                     "schedule": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "sem1": {
+                          "$ref": "#/components/schemas/AllStudentsSemesterSchedule"
+                        },
+                        "sem2": {
+                          "$ref": "#/components/schemas/AllStudentsSemesterSchedule"
+                        }
+                      }
                     }
                   }
                 }
@@ -376,22 +183,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/InternalServerError"
           }
         },
         "operationId": "get-schedule-rooms",
@@ -404,8 +196,7 @@
             "name": "r",
             "description": "names of rooms separated by ,"
           }
-        ],
-        "description": "Returns the schedule of the given rooms"
+        ]
       }
     },
     "/schedule/year/{yearNumber}": {
@@ -421,11 +212,11 @@
       ],
       "get": {
         "summary": "getYearSchedule",
-        "tags": [],
+        "operationId": "get-schedule-year-yearNumber",
+        "description": "get the schedule for a given year",
         "responses": {
           "200": {
             "description": "OK",
-            "headers": {},
             "content": {
               "application/json": {
                 "schema": {
@@ -434,8 +225,16 @@
                     "success": {
                       "type": "boolean"
                     },
-                    "message": {
-                      "type": "string"
+                    "schedule": {
+                      "type": "object",
+                      "properties": {
+                        "sem1": {
+                          "$ref": "#/components/schemas/SemesterSchedule"
+                        },
+                        "sem2": {
+                          "$ref": "#/components/schemas/SemesterSchedule"
+                        }
+                      }
                     }
                   }
                 }
@@ -443,51 +242,74 @@
             }
           },
           "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/NotFound"
           },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/secrets": {
+      "post": {
+        "summary": "post a new secret for the API",
+        "operationId": "post-secret",
+        "description": "post a new secret",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithMessage"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecretAddUpdate"
               }
             }
           }
+        }
+      },
+      "patch": {
+        "summary": "updates a secret with a new value",
+        "operationId": "update-secret",
+        "description": "updates a secret with a given value",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithMessage"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         },
-        "operationId": "get-schedule-year-yearNumber",
-        "requestBody": {},
-        "description": "get the schedule for a given year"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecretAddUpdate"
+              }
+            }
+          }
+        }
       }
     },
     "/users": {
       "get": {
         "summary": "getAllUsers",
-        "tags": [],
+        "operationId": "get-users",
+        "description": "Gets all the users",
         "responses": {
           "200": {
             "description": "OK",
@@ -500,7 +322,7 @@
                       "type": "boolean"
                     },
                     "users": {
-                      "type": "object"
+                      "$ref": "#/components/schemas/UsersArray"
                     }
                   }
                 }
@@ -508,42 +330,75 @@
             }
           },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "adminCreateUser",
+        "operationId": "post-admin-create-user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithMessage"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "patch": {
+        "summary": "updateUser",
+        "operationId": "patch-users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "firstname": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "group": {
+                    "type": "number"
+                  },
+                  "semiyear": {
+                    "type": "string"
+                  },
+                  "year": {
+                    "type": "number"
+                  },
+                  "faculty": {
+                    "type": "string"
                   }
                 }
               }
             }
           }
         },
-        "operationId": "get-users",
-        "description": "Gets all the users"
-      },
-      "patch": {
-        "summary": "updateUser",
-        "operationId": "patch-users",
         "responses": {
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/InternalServerError"
           }
         }
       }
@@ -552,6 +407,29 @@
       "patch": {
         "summary": "changePassword",
         "operationId": "patch-users-change_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "oldPass": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "newPass": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                },
+                "required": [
+                  "oldPass",
+                  "newPass"
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -568,26 +446,354 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
           "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "name": "userId",
+          "required": true
+        }
+      ],
+      "delete": {
+        "summary": "deleteUser",
+        "operationId": "delete-user",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithMessage"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/reset_password": {
+      "post": {
+        "summary": "resetPassword",
+        "operationId": "post-users-reset_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
                   }
-                }
+                },
+                "required": [
+                  "password"
+                ]
               }
             }
           }
         },
-        "description": ""
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithMessage"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Conflict": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndMessage"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The specified resource was not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndMessage"
+            }
+          }
+        }
+      },
+      "OkWithToken": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndToken"
+            }
+          }
+        }
+      },
+      "OkWithMessage": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndMessage"
+            }
+          }
+        }
+      },
+      "OkWithSchedule": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "schedule": {
+                  "$ref": "#/components/schemas/SemesterSchedule"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndMessage"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndMessage"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "JsonWithSuccessAndToken": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "JsonWithSuccessAndMessage": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Subject": {
+        "type": "object",
+        "properties": {
+          "De la": {
+            "type": "string"
+          },
+          "Pana la": {
+            "type": "string"
+          },
+          "Grupa": {
+            "type": "string"
+          },
+          "Disciplina": {
+            "type": "string"
+          },
+          "Tip": {
+            "type": "string"
+          },
+          "Profesor": {
+            "type": "string"
+          },
+          "Sala": {
+            "type": "string"
+          },
+          "Frecventa": {
+            "type": "string"
+          },
+          "Pachet": {
+            "type": "string"
+          }
+        }
+      },
+      "DaySchedule": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Subject"
+        }
+      },
+      "AllStudentsSemesterSchedule": {
+        "type": "object",
+        "properties": {
+          "1": {
+            "$ref": "#/components/schemas/SemesterSchedule"
+          },
+          "2": {
+            "$ref": "#/components/schemas/SemesterSchedule"
+          },
+          "3": {
+            "$ref": "#/components/schemas/SemesterSchedule"
+          }
+        }
+      },
+      "SemesterSchedule": {
+        "type": "object",
+        "properties": {
+          "Luni": {
+            "$ref": "#/components/schemas/DaySchedule"
+          },
+          "Marti": {
+            "$ref": "#/components/schemas/DaySchedule"
+          },
+          "Miercuri": {
+            "$ref": "#/components/schemas/DaySchedule"
+          },
+          "Joi": {
+            "$ref": "#/components/schemas/DaySchedule"
+          },
+          "Vineri": {
+            "$ref": "#/components/schemas/DaySchedule"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "semiyear": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "faculty": {
+            "type": "string"
+          },
+          "verifies": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "__v": {
+            "type": "string"
+          }
+        }
+      },
+      "UsersArray": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        }
+      },
+      "RegisterSchema": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstname",
+          "lastname",
+          "email",
+          "password"
+        ]
+      },
+      "SecretAddUpdate": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "env": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "value",
+          "env"
+        ]
       }
     }
   }
