@@ -38,6 +38,37 @@
         }
       ]
     },
+    "/auth/forgot_password": {
+      "post": {
+        "description": "Send a reset link of the password",
+        "summary": "forgotPasword",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithToken"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "summary": "Login",
@@ -100,6 +131,65 @@
         }
       }
     },
+    "/schedule/year/{yearNumber}/semester/{semesterNumber}/group/{groupNumber}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "yearNumber",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "semesterNumber",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "groupNumber",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "getYearSemesterGroupSchedule",
+        "operationId": "get-schedule-year-yearNumber-semester-semesterNumber-group-groupNumber",
+        "description": "Returns the schedule for the given year number, semester and group.",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OkWithSchedule"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/schedule/year/{yearNumber}/semester/{semesterNumber}": {
       "parameters": [
         {
@@ -149,6 +239,145 @@
             }
           }
         }
+      }
+    },
+    "/schedule": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "faculty",
+          "in": "query"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "semesterNumber",
+          "in": "query"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "yearNumber",
+          "in": "query"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "group",
+          "in": "query"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "semiyear",
+          "in": "query"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "room",
+          "in": "query"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "day",
+          "in": "query"
+        }
+      ],
+      "get": {
+        "summary": "getScheduleWithParams",
+        "description": "Returns the schedule of the given params",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "schedule": {
+                      "type": "object",
+                      "properties": {
+                        "sem1": {
+                          "$ref": "#/components/schemas/AllStudentsSemesterSchedule"
+                        },
+                        "sem2": {
+                          "$ref": "#/components/schemas/AllStudentsSemesterSchedule"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/schedule/professors": {
+      "get": {
+        "summary": "getProfessorsSchedule",
+        "description": "Returns the schedule of the given professors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "schedule": {
+                      "type": "object",
+                      "properties": {
+                        "sem1": {
+                          "$ref": "#/components/schemas/AllStudentsSemesterSchedule"
+                        },
+                        "sem2": {
+                          "$ref": "#/components/schemas/AllStudentsSemesterSchedule"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "operationId": "get-schedule-professors",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
+            "description": "names of professors separated by ,"
+          }
+        ]
       }
     },
     "/schedule/rooms": {
@@ -406,6 +635,35 @@
         }
       }
     },
+    "/users/change_profile_image": {
+      "patch": {
+        "summary": "changeProfileImage",
+        "operationId": "patch-users-change-profile-image",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "messsage": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
     "/users/change_password": {
       "patch": {
         "summary": "changePassword",
@@ -525,6 +783,16 @@
     "responses": {
       "Conflict": {
         "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/JsonWithSuccessAndMessage"
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "The server cannot or will not process the request due to something that is perceived to be a client error",
         "content": {
           "application/json": {
             "schema": {
